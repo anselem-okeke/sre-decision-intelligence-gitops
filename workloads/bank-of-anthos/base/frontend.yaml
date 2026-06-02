@@ -20,6 +20,7 @@ metadata:
     environment: development
     team: frontend
     tier: web
+    lan-exposure: enabled
   name: frontend
 spec:
   ports:
