@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: fintech-workloads
+  namespace: argocd
+spec:
+  description: Workload project for fintech applications managed by GitOps
+
+  sourceRepos:
+    - 'https://github.com/anselem-okeke/sre-decision-intelligence-gitops.git'
+
+  destinations:
+    - namespace: fintech-workload
+      server: https://kubernetes.default.svc
+
+  clusterResourceWhitelist: []
+
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'

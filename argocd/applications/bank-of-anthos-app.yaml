@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: bank-of-anthos
+  namespace: argocd
+spec:
+  project: fintech-workloads
+
+  source:
+    repoURL: https://github.com/anselem-okeke/sre-decision-intelligence-gitops.git
+    targetRevision: main
+    path: workloads/bank-of-anthos/overlays/talos
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: fintech-workload
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
