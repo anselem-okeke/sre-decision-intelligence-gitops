@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: bootstrap
+  namespace: argocd
+spec:
+  description: Bootstrap project for Argo CD app-of-apps management
+
+  sourceRepos:
+    - 'https://github.com/anselem-okeke/sre-decision-intelligence-gitops.git'
+
+  destinations:
+    - namespace: argocd
+      server: https://kubernetes.default.svc
+
+  clusterResourceWhitelist: []
+
+  namespaceResourceWhitelist:
+    - group: argoproj.io
+      kind: Application

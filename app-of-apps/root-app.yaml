@@ -4,7 +4,7 @@ metadata:
   name: sre-platform-root
   namespace: argocd
 spec:
-  project: default
+  project: bootstrap
 
   source:
     repoURL: https://github.com/anselem-okeke/sre-decision-intelligence-gitops.git
