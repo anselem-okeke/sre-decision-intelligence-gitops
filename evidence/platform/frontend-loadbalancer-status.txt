@@ -1,0 +1,2 @@
+NAME       TYPE           CLUSTER-IP    EXTERNAL-IP     PORT(S)        AGE   SELECTOR
+frontend   LoadBalancer   10.107.6.60   192.168.0.231   80:31734/TCP   10h   app=frontend,application=bank-of-anthos,environment=development,team=frontend,tier=web

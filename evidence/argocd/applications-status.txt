@@ -1,0 +1,4 @@
+NAME                  SYNC STATUS   HEALTH STATUS   REVISION                                   PROJECT
+bank-of-anthos        Synced        Healthy         79f142dac9ad54207c60f5d351ff22b30e30525d   fintech-workloads
+platform-cilium-lan   Synced        Healthy         79f142dac9ad54207c60f5d351ff22b30e30525d   platform-networking
+sre-platform-root     Synced        Healthy         79f142dac9ad54207c60f5d351ff22b30e30525d   bootstrap

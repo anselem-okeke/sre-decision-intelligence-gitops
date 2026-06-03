@@ -1,0 +1,48 @@
+apiVersion: v1
+items:
+- apiVersion: cilium.io/v2
+  kind: CiliumLoadBalancerIPPool
+  metadata:
+    annotations:
+      argocd.argoproj.io/tracking-id: platform-cilium-lan:cilium.io/CiliumLoadBalancerIPPool:kube-system/lan-pool
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"cilium.io/v2","kind":"CiliumLoadBalancerIPPool","metadata":{"annotations":{"argocd.argoproj.io/tracking-id":"platform-cilium-lan:cilium.io/CiliumLoadBalancerIPPool:kube-system/lan-pool"},"name":"lan-pool"},"spec":{"blocks":[{"start":"192.168.0.230","stop":"192.168.0.239"}]}}
+    creationTimestamp: "2026-04-05T18:01:01Z"
+    generation: 1
+    name: lan-pool
+    resourceVersion: "34616230"
+    uid: 679087bc-9d0c-4151-b93b-c5cb6b7e13b9
+  spec:
+    blocks:
+    - start: 192.168.0.230
+      stop: 192.168.0.239
+    disabled: false
+  status:
+    conditions:
+    - lastTransitionTime: "2026-04-05T18:01:01Z"
+      message: ""
+      observedGeneration: 1
+      reason: resolved
+      status: "False"
+      type: cilium.io/PoolConflict
+    - lastTransitionTime: "2026-04-05T18:01:01Z"
+      message: "10"
+      observedGeneration: 1
+      reason: noreason
+      status: Unknown
+      type: cilium.io/IPsTotal
+    - lastTransitionTime: "2026-04-05T18:01:01Z"
+      message: "8"
+      observedGeneration: 1
+      reason: noreason
+      status: Unknown
+      type: cilium.io/IPsAvailable
+    - lastTransitionTime: "2026-04-05T18:01:01Z"
+      message: "2"
+      observedGeneration: 1
+      reason: noreason
+      status: Unknown
+      type: cilium.io/IPsUsed
+kind: List
+metadata:
+  resourceVersion: ""

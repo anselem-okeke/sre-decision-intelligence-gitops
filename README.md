@@ -1,6 +1,7 @@
 # SRE Decision Intelligence GitOps
 
 ![img](./img/argocd-architecture.png)
+![img](img/gitopsvid.gif)
 
 This repository contains the GitOps configuration for the SRE Decision Intelligence Platform.
 
