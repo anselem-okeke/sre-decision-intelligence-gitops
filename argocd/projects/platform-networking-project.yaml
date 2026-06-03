@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: platform-networking
+  namespace: argocd
+spec:
+  description: Platform networking project for Cilium LAN LoadBalancer and L2 announcement
+
+  sourceRepos:
+    - 'https://github.com/anselem-okeke/sre-decision-intelligence-gitops.git'
+
+  destinations:
+    - namespace: '*'
+      server: https://kubernetes.default.svc
+
+  clusterResourceWhitelist:
+    - group: cilium.io
+      kind: CiliumLoadBalancerIPPool
+    - group: cilium.io
+      kind: CiliumL2AnnouncementPolicy
+
+  namespaceResourceWhitelist: []

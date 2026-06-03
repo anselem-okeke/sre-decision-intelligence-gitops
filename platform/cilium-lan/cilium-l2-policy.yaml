@@ -1,0 +1,10 @@
+apiVersion: cilium.io/v2alpha1
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: lan-lb-services-policy
+spec:
+  serviceSelector:
+    matchLabels:
+      lan-exposure: "enabled"
+  externalIPs: true
+  loadBalancerIPs: true
