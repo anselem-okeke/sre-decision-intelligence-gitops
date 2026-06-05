@@ -32,11 +32,11 @@ spec:
             memory: "2Gi"
 
         securityConfig:
-          enabled: true
+          enabled: false
 
         extraEnvs:
-          - name: OPENSEARCH_INITIAL_ADMIN_PASSWORD
-            value: "ChangeMe123!"
+          - name: DISABLE_SECURITY_PLUGIN
+            value: "true"
 
   destination:
     server: https://kubernetes.default.svc
