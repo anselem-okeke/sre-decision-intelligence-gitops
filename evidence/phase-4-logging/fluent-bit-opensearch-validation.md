@@ -1,4 +1,4 @@
-# Phase 4 — Fluent Bit to OpenSearch Validation
+# Fluent Bit to OpenSearch Validation
 
 ## Objective
 
