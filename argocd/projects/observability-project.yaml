@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: observability
+  namespace: argocd
+spec:
+  description: Observability project for logging, metrics, dashboards, and SRE signal collection
+
+  sourceRepos:
+    - 'https://github.com/anselem-okeke/sre-decision-intelligence-gitops.git'
+    - 'https://opensearch-project.github.io/helm-charts/'
+    - 'https://fluent.github.io/helm-charts'
+
+  destinations:
+    - namespace: observability
+      server: https://kubernetes.default.svc
+
+  clusterResourceWhitelist:
+    - group: ''
+      kind: Namespace
+
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
