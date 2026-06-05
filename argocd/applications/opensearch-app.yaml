@@ -21,14 +21,14 @@ spec:
         persistence:
           enabled: true
           size: 20Gi
-          storageClass: longhorn
+          storageClass: longhorn-retain
 
         resources:
           requests:
-            cpu: "500m"
+            cpu: "250m"
             memory: "1Gi"
           limits:
-            cpu: "2"
+            cpu: "1"
             memory: "2Gi"
 
         securityConfig:

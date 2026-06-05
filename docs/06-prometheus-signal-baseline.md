@@ -49,10 +49,10 @@ Examples:
 
 ## Current Gap
 
-The current Prometheus metric sample confirms platform metrics.
+> The current Prometheus metric sample confirms platform metrics.
+> The next discovery step is to verify whether Bank of Anthos exposes user-facing request metrics that can support SLIs/SLOs.
 
-The next discovery step is to verify whether Bank of Anthos exposes user-facing request metrics that can support SLIs/SLOs.
+[//]: # (## Next Step)
 
-## Next Step
-
-Run workload discovery queries against the `fintech-workload` namespace and identify whether HTTP, gRPC, ingress, or Cilium/Hubble request metrics exist.
+[//]: # ()
+[//]: # (Run workload discovery queries against the `fintech-workload` namespace and identify whether HTTP, gRPC, ingress, or Cilium/Hubble request metrics exist.)
