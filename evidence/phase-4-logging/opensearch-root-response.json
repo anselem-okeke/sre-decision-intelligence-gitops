@@ -1,0 +1,17 @@
+{
+  "name" : "opensearch-master-0",
+  "cluster_name" : "opensearch",
+  "cluster_uuid" : "TG5rVU4ZRK-EO5S-CwlpNg",
+  "version" : {
+    "distribution" : "opensearch",
+    "number" : "2.18.0",
+    "build_type" : "tar",
+    "build_hash" : "99a9a81da366173b0c2b963b26ea92e15ef34547",
+    "build_date" : "2024-10-31T19:08:39.157471098Z",
+    "build_snapshot" : false,
+    "lucene_version" : "9.12.0",
+    "minimum_wire_compatibility_version" : "7.10.0",
+    "minimum_index_compatibility_version" : "7.0.0"
+  },
+  "tagline" : "The OpenSearch Project: https://opensearch.org/"
+}

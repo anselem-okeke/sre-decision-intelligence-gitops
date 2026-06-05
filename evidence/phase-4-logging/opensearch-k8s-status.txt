@@ -1,0 +1,9 @@
+NAME                      READY   STATUS    RESTARTS   AGE
+pod/opensearch-master-0   1/1     Running   0          16m
+
+NAME                                         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
+service/opensearch-cluster-master            ClusterIP   10.102.158.135   <none>        9200/TCP,9300/TCP,9600/TCP   97m
+service/opensearch-cluster-master-headless   ClusterIP   None             <none>        9200/TCP,9300/TCP,9600/TCP   97m
+
+NAME                                 READY   AGE
+statefulset.apps/opensearch-master   1/1     26m

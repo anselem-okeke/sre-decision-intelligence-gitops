@@ -1,0 +1,5 @@
+NAME                  SYNC STATUS   HEALTH STATUS
+bank-of-anthos        Synced        Healthy
+opensearch            Synced        Healthy
+platform-cilium-lan   Synced        Healthy
+sre-platform-root     Synced        Healthy
