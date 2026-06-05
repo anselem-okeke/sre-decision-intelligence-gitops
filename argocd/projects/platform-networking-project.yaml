@@ -18,5 +18,7 @@ spec:
       kind: CiliumLoadBalancerIPPool
     - group: cilium.io
       kind: CiliumL2AnnouncementPolicy
+    - group: ""
+      kind: Namespace
 
   namespaceResourceWhitelist: []
