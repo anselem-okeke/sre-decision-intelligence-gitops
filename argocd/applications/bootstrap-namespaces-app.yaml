@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: platform-namespaces
+  name: bootstrap-namespaces
   namespace: argocd
 spec:
   project: platform-networking
@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/anselem-okeke/sre-decision-intelligence-gitops.git
     targetRevision: main
-    path: platform/namespaces
+    path: bootstrap/namespaces
 
   destination:
     server: https://kubernetes.default.svc
