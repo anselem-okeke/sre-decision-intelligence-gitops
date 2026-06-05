@@ -1,0 +1,14 @@
+# Discover all metric names for Bank of Anthos namespace
+count by (__name__) (
+  {namespace="fintech-workload"}
+)
+
+# Discover frontend-related metrics
+count by (__name__) (
+  {namespace="fintech-workload", pod=~".*frontend.*"}
+)
+
+# Discover service labels
+count by (job, service, namespace) (
+  {namespace="fintech-workload"}
+)
