@@ -52,8 +52,6 @@ spec:
                     app_timestamp = json_ts
                 end
 
-                -- Fallback for plain-text logs:
-                -- INFO deposit | Deposit submitted successfully.
                 if not json_msg then
                     if raw:find("CRITICAL") then
                         severity = "CRITICAL"
