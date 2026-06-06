@@ -33,60 +33,29 @@ spec:
                 local severity = "INFO"
                 local message = raw
 
-                -- Match common log levels at the beginning of the line
-                local detected, rest = raw:match("^(INFO)%s+(.+)")
-                if detected then
-                    severity = detected
-                    message = rest
-                end
-
-                detected, rest = raw:match("^(WARN)%s+(.+)")
-                if detected then
-                    severity = detected
-                    message = rest
-                end
-
-                detected, rest = raw:match("^(WARNING)%s+(.+)")
-                if detected then
-                    severity = detected
-                    message = rest
-                end
-
-                detected, rest = raw:match("^(ERROR)%s+(.+)")
-                if detected then
-                    severity = detected
-                    message = rest
-                end
-
-                detected, rest = raw:match("^(DEBUG)%s+(.+)")
-                if detected then
-                    severity = detected
-                    message = rest
-                end
-
-                detected, rest = raw:match("^(CRITICAL)%s+(.+)")
-                if detected then
-                    severity = detected
-                    message = rest
-                end
-
-                -- Also detect severity anywhere in the message as fallback
-                if raw:find("ERROR") then
-                    severity = "ERROR"
-                elseif raw:find("WARN") then
-                    severity = "WARN"
-                elseif raw:find("CRITICAL") then
+                -- Detect severity anywhere in the log line
+                if raw:find("CRITICAL") then
                     severity = "CRITICAL"
+                elseif raw:find("ERROR") then
+                    severity = "ERROR"
+                elseif raw:find("WARN") or raw:find("WARNING") then
+                    severity = "WARN"
                 elseif raw:find("DEBUG") then
                     severity = "DEBUG"
                 elseif raw:find("INFO") then
                     severity = "INFO"
                 end
 
+                -- Remove leading severity if present
+                message = message:gsub("^INFO%s+", "")
+                message = message:gsub("^WARN%s+", "")
+                message = message:gsub("^WARNING%s+", "")
+                message = message:gsub("^ERROR%s+", "")
+                message = message:gsub("^DEBUG%s+", "")
+                message = message:gsub("^CRITICAL%s+", "")
+
                 record["message"] = message
                 record["severity"] = severity
-
-                -- Human-readable timestamp field for _source display
                 record["timestamp"] = os.date("!%Y-%m-%d %H:%M:%S")
 
                 return 1, timestamp, record
@@ -111,7 +80,7 @@ spec:
                 Parser            cri
                 Tag               kube.*
                 Refresh_Interval  5
-                Mem_Buf_Limit     50MB
+                Mem_Buf_Limit     100MB
                 Skip_Long_Lines   On
 
           filters: |
@@ -142,7 +111,7 @@ spec:
                 Logstash_Prefix       k8s-logs
                 Suppress_Type_Name    On
                 tls                   Off
-                Buffer_Size           512KB
+                Buffer_Size           1M
                 Retry_Limit           False
 
   destination:
