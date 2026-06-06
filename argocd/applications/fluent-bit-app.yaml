@@ -124,6 +124,8 @@ spec:
                 Kube_Token_File     /var/run/secrets/kubernetes.io/serviceaccount/token
                 Merge_Log           On
                 Keep_Log            On
+                Labels              Off
+                Annotations         Off
                 K8S-Logging.Parser  Off
                 K8S-Logging.Exclude Off
 
