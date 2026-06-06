@@ -17,36 +17,6 @@ spec:
         serviceAccount:
           create: true
 
-        luaScripts:
-          parse_app_log.lua: |
-            function parse_app_log(tag, timestamp, record)
-                local cjson = require("cjson")
-
-                local raw_message = record["message"] or record["log"]
-
-                if raw_message == nil then
-                    return 1, timestamp, record
-                end
-
-                local ok, parsed = pcall(cjson.decode, raw_message)
-
-                if ok and parsed ~= nil then
-                    if parsed["timestamp"] ~= nil then
-                        record["app_timestamp"] = parsed["timestamp"]
-                    end
-
-                    if parsed["message"] ~= nil then
-                        record["app_message"] = parsed["message"]
-                    end
-
-                    if parsed["severity"] ~= nil then
-                        record["app_severity"] = parsed["severity"]
-                    end
-                end
-
-                return 1, timestamp, record
-            end
-
         config:
           service: |
             [SERVICE]
@@ -81,10 +51,12 @@ spec:
                 K8S-Logging.Exclude Off
 
             [FILTER]
-                Name    lua
-                Match   kube.*
-                script  /fluent-bit/scripts/parse_app_log.lua
-                call    parse_app_log
+                Name          parser
+                Match         kube.*
+                Key_Name      log
+                Parser        app_json
+                Reserve_Data  On
+                Preserve_Key  On
 
           outputs: |
             [OUTPUT]
@@ -97,6 +69,13 @@ spec:
                 Suppress_Type_Name    On
                 tls                   Off
 
+          customParsers: |
+            [PARSER]
+                Name        app_json
+                Format      json
+                Time_Key    timestamp
+                Time_Keep   On
+
   destination:
     server: https://kubernetes.default.svc
     namespace: observability
@@ -105,6 +84,140 @@ spec:
     automated:
       prune: true
       selfHeal: true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#apiVersion: argoproj.io/v1alpha1
+#kind: Application
+#metadata:
+#  name: fluent-bit
+#  namespace: argocd
+#spec:
+#  project: observability
+#
+#  source:
+#    repoURL: https://fluent.github.io/helm-charts
+#    chart: fluent-bit
+#    targetRevision: 0.48.5
+#    helm:
+#      values: |
+#        kind: DaemonSet
+#
+#        serviceAccount:
+#          create: true
+#
+#        luaScripts:
+#          parse_app_log.lua: |
+#            function parse_app_log(tag, timestamp, record)
+#                local cjson = require("cjson")
+#
+#                local raw_message = record["message"] or record["log"]
+#
+#                if raw_message == nil then
+#                    return 1, timestamp, record
+#                end
+#
+#                local ok, parsed = pcall(cjson.decode, raw_message)
+#
+#                if ok and parsed ~= nil then
+#                    if parsed["timestamp"] ~= nil then
+#                        record["app_timestamp"] = parsed["timestamp"]
+#                    end
+#
+#                    if parsed["message"] ~= nil then
+#                        record["app_message"] = parsed["message"]
+#                    end
+#
+#                    if parsed["severity"] ~= nil then
+#                        record["app_severity"] = parsed["severity"]
+#                    end
+#                end
+#
+#                return 1, timestamp, record
+#            end
+#
+#        config:
+#          service: |
+#            [SERVICE]
+#                Flush         5
+#                Log_Level     info
+#                Daemon        off
+#                Parsers_File  parsers.conf
+#                HTTP_Server   On
+#                HTTP_Listen   0.0.0.0
+#                HTTP_Port     2020
+#
+#          inputs: |
+#            [INPUT]
+#                Name              tail
+#                Path              /var/log/containers/*.log
+#                Parser            cri
+#                Tag               kube.*
+#                Refresh_Interval  5
+#                Mem_Buf_Limit     50MB
+#                Skip_Long_Lines   On
+#
+#          filters: |
+#            [FILTER]
+#                Name                kubernetes
+#                Match               kube.*
+#                Kube_URL            https://kubernetes.default.svc:443
+#                Kube_CA_File        /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+#                Kube_Token_File     /var/run/secrets/kubernetes.io/serviceaccount/token
+#                Merge_Log           On
+#                Keep_Log            On
+#                K8S-Logging.Parser  On
+#                K8S-Logging.Exclude Off
+#
+#            [FILTER]
+#                Name    lua
+#                Match   kube.*
+#                script  /fluent-bit/scripts/parse_app_log.lua
+#                call    parse_app_log
+#
+#          outputs: |
+#            [OUTPUT]
+#                Name                  opensearch
+#                Match                 kube.*
+#                Host                  opensearch-cluster-master.observability.svc.cluster.local
+#                Port                  9200
+#                Logstash_Format       On
+#                Logstash_Prefix       k8s-logs
+#                Suppress_Type_Name    On
+#                tls                   Off
+#
+#  destination:
+#    server: https://kubernetes.default.svc
+#    namespace: observability
+#
+#  syncPolicy:
+#    automated:
+#      prune: true
+#      selfHeal: true
 
 
 
