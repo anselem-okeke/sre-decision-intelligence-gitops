@@ -144,7 +144,7 @@ spec:
                 Suppress_Type_Name  On
                 tls                 Off
                 Buffer_Size         5M
-                Workers             4
+                Workers             1
                 Retry_Limit         False
                 Trace_Error         On
 
