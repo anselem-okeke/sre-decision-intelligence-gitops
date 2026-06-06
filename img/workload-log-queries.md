@@ -811,7 +811,7 @@ These queries can later power Grafana panels:
 
 ## 20. Investigation Workflow
 
-Order during troubleshooting:
+Use this order during troubleshooting:
 
 ```text
 1. Check if logs are arriving
@@ -912,3 +912,13 @@ New documents should contain extracted fields:
 ```
 
 ---
+
+## 23. Commit
+
+After creating this file:
+
+```bash
+git add observability/opensearch/queries/workload-log-queries.md
+git commit -m "docs: add OpenSearch workload log investigation queries"
+git push
+```
