@@ -93,7 +93,7 @@ spec:
                 HTTP_Server               On
                 HTTP_Listen               0.0.0.0
                 HTTP_Port                 2020
-                storage.path              /var/log/flb-storage
+                storage.path              /var/log/flb-storage-v2
                 storage.sync              normal
                 storage.checksum          off
                 storage.backlog.mem_limit 100M
@@ -110,7 +110,7 @@ spec:
                 Mem_Buf_Limit       256MB
                 Skip_Long_Lines     On
                 Read_from_Head      Off
-                DB                  /var/log/flb_kube_cluster.db
+                DB                  /var/log/flb_kube_cluster_v2.db
                 DB.Sync             Normal
                 Rotate_Wait         60
                 storage.type        filesystem
