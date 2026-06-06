@@ -32,31 +32,57 @@ spec:
 
                 local severity = "INFO"
                 local message = raw
+                local app_timestamp = nil
 
-                -- Detect severity anywhere in the log line
-                if raw:find("CRITICAL") then
-                    severity = "CRITICAL"
-                elseif raw:find("ERROR") then
-                    severity = "ERROR"
-                elseif raw:find("WARN") or raw:find("WARNING") then
-                    severity = "WARN"
-                elseif raw:find("DEBUG") then
-                    severity = "DEBUG"
-                elseif raw:find("INFO") then
-                    severity = "INFO"
+                -- Handle application logs emitted as JSON strings:
+                -- {"timestamp": "2026-06-05 23:59:59", "message": "deposit | Deposit submitted successfully.", "severity": "INFO"}
+                local json_ts = raw:match('"timestamp"%s*:%s*"([^"]+)"')
+                local json_msg = raw:match('"message"%s*:%s*"([^"]+)"')
+                local json_sev = raw:match('"severity"%s*:%s*"([^"]+)"')
+
+                if json_msg then
+                    message = json_msg
                 end
 
-                -- Remove leading severity if present
-                message = message:gsub("^INFO%s+", "")
-                message = message:gsub("^WARN%s+", "")
-                message = message:gsub("^WARNING%s+", "")
-                message = message:gsub("^ERROR%s+", "")
-                message = message:gsub("^DEBUG%s+", "")
-                message = message:gsub("^CRITICAL%s+", "")
+                if json_sev then
+                    severity = json_sev
+                end
+
+                if json_ts then
+                    app_timestamp = json_ts
+                end
+
+                -- Fallback for plain-text logs:
+                -- INFO deposit | Deposit submitted successfully.
+                if not json_msg then
+                    if raw:find("CRITICAL") then
+                        severity = "CRITICAL"
+                    elseif raw:find("ERROR") then
+                        severity = "ERROR"
+                    elseif raw:find("WARN") or raw:find("WARNING") then
+                        severity = "WARN"
+                    elseif raw:find("DEBUG") then
+                        severity = "DEBUG"
+                    elseif raw:find("INFO") then
+                        severity = "INFO"
+                    end
+
+                    message = message:gsub("^INFO%s+", "")
+                    message = message:gsub("^WARN%s+", "")
+                    message = message:gsub("^WARNING%s+", "")
+                    message = message:gsub("^ERROR%s+", "")
+                    message = message:gsub("^DEBUG%s+", "")
+                    message = message:gsub("^CRITICAL%s+", "")
+                end
 
                 record["message"] = message
                 record["severity"] = severity
-                record["timestamp"] = os.date("!%Y-%m-%d %H:%M:%S")
+
+                if app_timestamp then
+                    record["timestamp"] = app_timestamp
+                else
+                    record["timestamp"] = os.date("!%Y-%m-%d %H:%M:%S")
+                end
 
                 return 1, timestamp, record
             end
