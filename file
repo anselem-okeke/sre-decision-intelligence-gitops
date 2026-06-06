@@ -1,0 +1,199 @@
+{
+  "took" : 129,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 18,
+    "successful" : 17,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 10000,
+      "relation" : "gte"
+    },
+    "max_score" : null,
+    "hits" : [
+      {
+        "_index" : "k8s-logs-2026.05.09",
+        "_id" : "I7qgmp4B5Wt4-YIBo6RH",
+        "_score" : null,
+        "_source" : {
+          "severity" : "INFO",
+          "kubernetes" : {
+            "container_name" : "repo-server",
+            "namespace_name" : "argocd",
+            "pod_name" : "my-argo-cd-argocd-repo-server-bd57d694c-cz69b"
+          },
+          "@timestamp" : "2026-05-09T14:03:16.776Z",
+          "message" : "time=\"2026-05-09T14:03:16Z\" level=info msg=\"finished call\" grpc.code=OK grpc.component=server grpc.method=Check grpc.method_type=unary grpc.request.deadline=\"2026-05-09T14:04:16Z\" grpc.service=grpc.health.v1.Health grpc.start_time=\"2026-05-09T14:03:16Z\" grpc.time_ms=0.47 peer.address=\"127.0.0.1:42284\" protocol=grpc"
+        },
+        "sort" : [
+          1778335396776
+        ]
+      },
+      {
+        "_index" : "k8s-logs-2026.05.09",
+        "_id" : "Irqgmp4B5Wt4-YIBo6RH",
+        "_score" : null,
+        "_source" : {
+          "severity" : "INFO",
+          "kubernetes" : {
+            "container_name" : "repo-server",
+            "namespace_name" : "argocd",
+            "pod_name" : "my-argo-cd-argocd-repo-server-bd57d694c-cz69b"
+          },
+          "@timestamp" : "2026-05-09T14:03:16.775Z",
+          "message" : "time=\"2026-05-09T14:03:16Z\" level=info msg=\"started call\" grpc.component=server grpc.method=Check grpc.method_type=unary grpc.request.deadline=\"2026-05-09T14:04:16Z\" grpc.service=grpc.health.v1.Health grpc.start_time=\"2026-05-09T14:03:16Z\" grpc.time_ms=0.033 peer.address=\"127.0.0.1:42284\" protocol=grpc"
+        },
+        "sort" : [
+          1778335396775
+        ]
+      },
+      {
+        "_index" : "k8s-logs-2026.05.09",
+        "_id" : "ILqgmp4B5Wt4-YIBo6RH",
+        "_score" : null,
+        "_source" : {
+          "severity" : "INFO",
+          "kubernetes" : {
+            "container_name" : "repo-server",
+            "namespace_name" : "argocd",
+            "pod_name" : "my-argo-cd-argocd-repo-server-bd57d694c-cz69b"
+          },
+          "@timestamp" : "2026-05-09T14:03:06.757Z",
+          "message" : "time=\"2026-05-09T14:03:06Z\" level=info msg=\"started call\" grpc.component=server grpc.method=Check grpc.method_type=unary grpc.request.deadline=\"2026-05-09T14:04:06Z\" grpc.service=grpc.health.v1.Health grpc.start_time=\"2026-05-09T14:03:06Z\" grpc.time_ms=0.007 peer.address=\"127.0.0.1:47832\" protocol=grpc"
+        },
+        "sort" : [
+          1778335386757
+        ]
+      },
+      {
+        "_index" : "k8s-logs-2026.05.09",
+        "_id" : "Ibqgmp4B5Wt4-YIBo6RH",
+        "_score" : null,
+        "_source" : {
+          "severity" : "INFO",
+          "kubernetes" : {
+            "container_name" : "repo-server",
+            "namespace_name" : "argocd",
+            "pod_name" : "my-argo-cd-argocd-repo-server-bd57d694c-cz69b"
+          },
+          "@timestamp" : "2026-05-09T14:03:06.757Z",
+          "message" : "time=\"2026-05-09T14:03:06Z\" level=info msg=\"finished call\" grpc.code=OK grpc.component=server grpc.method=Check grpc.method_type=unary grpc.request.deadline=\"2026-05-09T14:04:06Z\" grpc.service=grpc.health.v1.Health grpc.start_time=\"2026-05-09T14:03:06Z\" grpc.time_ms=0.338 peer.address=\"127.0.0.1:47832\" protocol=grpc"
+        },
+        "sort" : [
+          1778335386757
+        ]
+      },
+      {
+        "_index" : "k8s-logs-2026.05.09",
+        "_id" : "Hrqgmp4B5Wt4-YIBo6RH",
+        "_score" : null,
+        "_source" : {
+          "severity" : "INFO",
+          "kubernetes" : {
+            "container_name" : "repo-server",
+            "namespace_name" : "argocd",
+            "pod_name" : "my-argo-cd-argocd-repo-server-bd57d694c-cz69b"
+          },
+          "@timestamp" : "2026-05-09T14:02:56.753Z",
+          "message" : "time=\"2026-05-09T14:02:56Z\" level=info msg=\"started call\" grpc.component=server grpc.method=Check grpc.method_type=unary grpc.request.deadline=\"2026-05-09T14:03:56Z\" grpc.service=grpc.health.v1.Health grpc.start_time=\"2026-05-09T14:02:56Z\" grpc.time_ms=0.008 peer.address=\"127.0.0.1:41806\" protocol=grpc"
+        },
+        "sort" : [
+          1778335376753
+        ]
+      },
+      {
+        "_index" : "k8s-logs-2026.05.09",
+        "_id" : "H7qgmp4B5Wt4-YIBo6RH",
+        "_score" : null,
+        "_source" : {
+          "severity" : "INFO",
+          "kubernetes" : {
+            "container_name" : "repo-server",
+            "namespace_name" : "argocd",
+            "pod_name" : "my-argo-cd-argocd-repo-server-bd57d694c-cz69b"
+          },
+          "@timestamp" : "2026-05-09T14:02:56.753Z",
+          "message" : "time=\"2026-05-09T14:02:56Z\" level=info msg=\"finished call\" grpc.code=OK grpc.component=server grpc.method=Check grpc.method_type=unary grpc.request.deadline=\"2026-05-09T14:03:56Z\" grpc.service=grpc.health.v1.Health grpc.start_time=\"2026-05-09T14:02:56Z\" grpc.time_ms=0.064 peer.address=\"127.0.0.1:41806\" protocol=grpc"
+        },
+        "sort" : [
+          1778335376753
+        ]
+      },
+      {
+        "_index" : "k8s-logs-2026.05.09",
+        "_id" : "Hbqgmp4B5Wt4-YIBo6RH",
+        "_score" : null,
+        "_source" : {
+          "severity" : "INFO",
+          "kubernetes" : {
+            "container_name" : "repo-server",
+            "namespace_name" : "argocd",
+            "pod_name" : "my-argo-cd-argocd-repo-server-bd57d694c-cz69b"
+          },
+          "@timestamp" : "2026-05-09T14:02:46.760Z",
+          "message" : "time=\"2026-05-09T14:02:46Z\" level=info msg=\"finished call\" grpc.code=OK grpc.component=server grpc.method=Check grpc.method_type=unary grpc.request.deadline=\"2026-05-09T14:03:46Z\" grpc.service=grpc.health.v1.Health grpc.start_time=\"2026-05-09T14:02:46Z\" grpc.time_ms=0.126 peer.address=\"127.0.0.1:57628\" protocol=grpc"
+        },
+        "sort" : [
+          1778335366760
+        ]
+      },
+      {
+        "_index" : "k8s-logs-2026.05.09",
+        "_id" : "HLqgmp4B5Wt4-YIBo6RH",
+        "_score" : null,
+        "_source" : {
+          "severity" : "INFO",
+          "kubernetes" : {
+            "container_name" : "repo-server",
+            "namespace_name" : "argocd",
+            "pod_name" : "my-argo-cd-argocd-repo-server-bd57d694c-cz69b"
+          },
+          "@timestamp" : "2026-05-09T14:02:46.759Z",
+          "message" : "time=\"2026-05-09T14:02:46Z\" level=info msg=\"started call\" grpc.component=server grpc.method=Check grpc.method_type=unary grpc.request.deadline=\"2026-05-09T14:03:46Z\" grpc.service=grpc.health.v1.Health grpc.start_time=\"2026-05-09T14:02:46Z\" grpc.time_ms=0.009 peer.address=\"127.0.0.1:57628\" protocol=grpc"
+        },
+        "sort" : [
+          1778335366759
+        ]
+      },
+      {
+        "_index" : "k8s-logs-2026.05.09",
+        "_id" : "Grqgmp4B5Wt4-YIBo6RH",
+        "_score" : null,
+        "_source" : {
+          "severity" : "INFO",
+          "kubernetes" : {
+            "container_name" : "repo-server",
+            "namespace_name" : "argocd",
+            "pod_name" : "my-argo-cd-argocd-repo-server-bd57d694c-cz69b"
+          },
+          "@timestamp" : "2026-05-09T14:02:36.752Z",
+          "message" : "time=\"2026-05-09T14:02:36Z\" level=info msg=\"started call\" grpc.component=server grpc.method=Check grpc.method_type=unary grpc.request.deadline=\"2026-05-09T14:03:36Z\" grpc.service=grpc.health.v1.Health grpc.start_time=\"2026-05-09T14:02:36Z\" grpc.time_ms=0.007 peer.address=\"127.0.0.1:55218\" protocol=grpc"
+        },
+        "sort" : [
+          1778335356752
+        ]
+      },
+      {
+        "_index" : "k8s-logs-2026.05.09",
+        "_id" : "G7qgmp4B5Wt4-YIBo6RH",
+        "_score" : null,
+        "_source" : {
+          "severity" : "INFO",
+          "kubernetes" : {
+            "container_name" : "repo-server",
+            "namespace_name" : "argocd",
+            "pod_name" : "my-argo-cd-argocd-repo-server-bd57d694c-cz69b"
+          },
+          "@timestamp" : "2026-05-09T14:02:36.752Z",
+          "message" : "time=\"2026-05-09T14:02:36Z\" level=info msg=\"finished call\" grpc.code=OK grpc.component=server grpc.method=Check grpc.method_type=unary grpc.request.deadline=\"2026-05-09T14:03:36Z\" grpc.service=grpc.health.v1.Health grpc.start_time=\"2026-05-09T14:02:36Z\" grpc.time_ms=0.071 peer.address=\"127.0.0.1:55218\" protocol=grpc"
+        },
+        "sort" : [
+          1778335356752
+        ]
+      }
+    ]
+  }
+}

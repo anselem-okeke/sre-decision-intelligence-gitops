@@ -1,0 +1,34 @@
+# Discover all metrics in the fintech workload namespace
+count by (__name__) (
+  {namespace="fintech-workload"}
+)
+
+# Workload pod restarts
+sum by (pod, container) (
+  increase(kube_pod_container_status_restarts_total{namespace="fintech-workload"}[15m])
+)
+
+# Workload pods by phase
+sum by (pod, phase) (
+  kube_pod_status_phase{namespace="fintech-workload"}
+)
+
+# Workload containers not ready
+sum by (pod, container) (
+  kube_pod_container_status_ready{namespace="fintech-workload"} == 0
+)
+
+# Workload deployment unavailable replicas
+sum by (deployment) (
+  kube_deployment_status_replicas_unavailable{namespace="fintech-workload"}
+)
+
+# Workload CPU usage
+sum by (pod, container) (
+  rate(container_cpu_usage_seconds_total{namespace="fintech-workload", container!="", image!=""}[5m])
+)
+
+# Workload memory usage
+sum by (pod, container) (
+  container_memory_working_set_bytes{namespace="fintech-workload", container!="", image!=""}
+)
