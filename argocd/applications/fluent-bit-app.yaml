@@ -17,6 +17,81 @@ spec:
         serviceAccount:
           create: true
 
+        luaScripts:
+          normalize.lua: |
+            function normalize(tag, timestamp, record)
+                local raw = record["message"] or record["log"] or ""
+
+                if raw == nil then
+                    raw = ""
+                end
+
+                raw = tostring(raw)
+                raw = raw:gsub("\n", "")
+                raw = raw:gsub("\r", "")
+
+                local severity = "INFO"
+                local message = raw
+
+                -- Match common log levels at the beginning of the line
+                local detected, rest = raw:match("^(INFO)%s+(.+)")
+                if detected then
+                    severity = detected
+                    message = rest
+                end
+
+                detected, rest = raw:match("^(WARN)%s+(.+)")
+                if detected then
+                    severity = detected
+                    message = rest
+                end
+
+                detected, rest = raw:match("^(WARNING)%s+(.+)")
+                if detected then
+                    severity = detected
+                    message = rest
+                end
+
+                detected, rest = raw:match("^(ERROR)%s+(.+)")
+                if detected then
+                    severity = detected
+                    message = rest
+                end
+
+                detected, rest = raw:match("^(DEBUG)%s+(.+)")
+                if detected then
+                    severity = detected
+                    message = rest
+                end
+
+                detected, rest = raw:match("^(CRITICAL)%s+(.+)")
+                if detected then
+                    severity = detected
+                    message = rest
+                end
+
+                -- Also detect severity anywhere in the message as fallback
+                if raw:find("ERROR") then
+                    severity = "ERROR"
+                elseif raw:find("WARN") then
+                    severity = "WARN"
+                elseif raw:find("CRITICAL") then
+                    severity = "CRITICAL"
+                elseif raw:find("DEBUG") then
+                    severity = "DEBUG"
+                elseif raw:find("INFO") then
+                    severity = "INFO"
+                end
+
+                record["message"] = message
+                record["severity"] = severity
+
+                -- Human-readable timestamp field for _source display
+                record["timestamp"] = os.date("!%Y-%m-%d %H:%M:%S")
+
+                return 1, timestamp, record
+            end
+
         config:
           service: |
             [SERVICE]
@@ -32,7 +107,7 @@ spec:
             [INPUT]
                 Name              tail
                 Path              /var/log/containers/*.log
-                Exclude_Path      /var/log/containers/fluent-bit*_observability_*.log
+                Exclude_Path      /var/log/containers/*_observability_fluent-bit-*.log
                 Parser            cri
                 Tag               kube.*
                 Refresh_Interval  5
@@ -51,6 +126,12 @@ spec:
                 K8S-Logging.Parser  Off
                 K8S-Logging.Exclude Off
 
+            [FILTER]
+                Name          lua
+                Match         kube.*
+                script        /fluent-bit/scripts/normalize.lua
+                call          normalize
+
           outputs: |
             [OUTPUT]
                 Name                  opensearch
@@ -61,7 +142,7 @@ spec:
                 Logstash_Prefix       k8s-logs
                 Suppress_Type_Name    On
                 tls                   Off
-                Buffer_Size           2M
+                Buffer_Size           512KB
                 Retry_Limit           False
 
   destination:
