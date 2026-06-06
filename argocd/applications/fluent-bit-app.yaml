@@ -32,6 +32,7 @@ spec:
             [INPUT]
                 Name              tail
                 Path              /var/log/containers/*.log
+                Exclude_Path      /var/log/containers/fluent-bit*_observability_*.log
                 Parser            cri
                 Tag               kube.*
                 Refresh_Interval  5
@@ -47,7 +48,7 @@ spec:
                 Kube_Token_File     /var/run/secrets/kubernetes.io/serviceaccount/token
                 Merge_Log           On
                 Keep_Log            On
-                K8S-Logging.Parser  On
+                K8S-Logging.Parser  Off
                 K8S-Logging.Exclude Off
 
           outputs: |
