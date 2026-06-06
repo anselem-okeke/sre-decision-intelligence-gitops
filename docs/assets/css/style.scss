@@ -1,0 +1,61 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+/* Full dark background */
+body {
+  background: #0f172a !important;
+  color: #e5e7eb !important;
+}
+
+/* Main content area */
+#main_content,
+.inner,
+section {
+  background: #0f172a !important;
+  color: #e5e7eb !important;
+}
+
+/* Headings */
+h1, h2, h3, h4 {
+  color: #f8fafc !important;
+}
+
+/* Links */
+a {
+  color: #38bdf8 !important;
+}
+
+/* Code blocks */
+pre, code {
+  background: #020617 !important;
+  color: #e5e7eb !important;
+  border: 1px solid #334155 !important;
+}
+
+/* Blockquotes */
+blockquote {
+  color: #cbd5e1 !important;
+  border-left: 4px solid #38bdf8 !important;
+}
+
+/* Tables */
+table {
+  background: #111827 !important;
+  color: #e5e7eb !important;
+}
+
+th {
+  background: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+td {
+  border-color: #334155 !important;
+}
+
+/* Horizontal lines */
+hr {
+  border-color: #334155 !important;
+}
