@@ -1,3 +1,8 @@
+---
+layout: default
+title: SRE Decision Intelligence GitOps
+---
+
 # SRE Decision Intelligence GitOps
 
 ### Practical SRE, observability, GitOps, and decision-intelligence notes built from hands-on Kubernetes platform engineering work.

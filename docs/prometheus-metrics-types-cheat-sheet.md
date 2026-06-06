@@ -1,3 +1,8 @@
+---
+layout: default
+title: Prometheus Metrics Types Cheat Sheet
+---
+
 # Prometheus Metrics Types Cheat Sheet
 
 ![img](./img/prometheus-cheatsheet.png)
