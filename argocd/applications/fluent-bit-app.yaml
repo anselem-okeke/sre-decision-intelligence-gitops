@@ -22,7 +22,7 @@ spec:
             function parse_app_log(tag, timestamp, record)
                 local cjson = require("cjson")
 
-                local raw_message = record["message"]
+                local raw_message = record["message"] or record["log"]
 
                 if raw_message == nil then
                     return 1, timestamp, record
