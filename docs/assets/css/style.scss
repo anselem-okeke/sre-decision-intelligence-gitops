@@ -308,6 +308,30 @@ footer p {
   }
 }
 
+/* Remove dotted/dashed lines under headings from Slate theme */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  border-bottom: none !important;
+  background: none !important;
+}
+
+/* Keep clean spacing after headings */
+h2 {
+  margin-top: 46px !important;
+  margin-bottom: 18px !important;
+  padding-bottom: 0 !important;
+}
+
+h3 {
+  margin-top: 32px !important;
+  margin-bottom: 12px !important;
+  padding-bottom: 0 !important;
+}
+
 
 
 
