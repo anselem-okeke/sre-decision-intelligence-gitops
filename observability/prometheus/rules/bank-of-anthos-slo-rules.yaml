@@ -1,0 +1,46 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: bank-of-anthos-slo-rules
+  namespace: monitoring
+  labels:
+    release: kps
+spec:
+  groups:
+    - name: bank-of-anthos.slo.candidates
+      rules:
+        - alert: BankOfAnthosFrontendAvailabilitySLOBreach
+          expr: vector(0)
+          for: 5m
+          labels:
+            severity: warning
+            service: frontend
+            slo: frontend-availability
+            namespace: fintech-workload
+          annotations:
+            summary: "Bank of Anthos frontend availability SLO breach"
+            description: "Placeholder rule. Replace expr with real frontend availability SLI after metric discovery."
+
+        - alert: BankOfAnthosFrontendLatencySLOBreach
+          expr: vector(0)
+          for: 5m
+          labels:
+            severity: warning
+            service: frontend
+            slo: frontend-latency
+            namespace: fintech-workload
+          annotations:
+            summary: "Bank of Anthos frontend latency SLO breach"
+            description: "Placeholder rule. Replace expr with real p95 latency SLI after metric discovery."
+
+        - alert: BankOfAnthosTransactionSuccessSLOBreach
+          expr: vector(0)
+          for: 5m
+          labels:
+            severity: warning
+            service: transaction
+            slo: transaction-success
+            namespace: fintech-workload
+          annotations:
+            summary: "Bank of Anthos transaction success SLO breach"
+            description: "Placeholder rule. Replace expr with real transaction success SLI after metric discovery."

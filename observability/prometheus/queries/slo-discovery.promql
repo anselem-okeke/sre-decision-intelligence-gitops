@@ -1,0 +1,34 @@
+# Discover all metrics in fintech-workload namespace
+count by (__name__) (
+  {namespace="fintech-workload"}
+)
+
+# Discover all metrics related to frontend pods
+count by (__name__) (
+  {namespace="fintech-workload", pod=~".*frontend.*"}
+)
+
+# Discover metrics that may represent HTTP traffic
+count by (__name__) (
+  {__name__=~".*http.*|.*request.*|.*response.*", namespace="fintech-workload"}
+)
+
+# Discover metrics that may represent latency
+count by (__name__) (
+  {__name__=~".*duration.*|.*latency.*|.*seconds.*", namespace="fintech-workload"}
+)
+
+# Discover metrics that may represent errors
+count by (__name__) (
+  {__name__=~".*error.*|.*fail.*|.*exception.*", namespace="fintech-workload"}
+)
+
+# Discover Cilium/Hubble HTTP metrics if available
+count by (__name__) (
+  {__name__=~".*hubble.*|.*cilium.*|.*http.*"}
+)
+
+# Discover ingress metrics if available
+count by (__name__) (
+  {__name__=~".*ingress.*|.*nginx.*|.*gateway.*|.*http.*"}
+)

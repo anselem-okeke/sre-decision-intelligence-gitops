@@ -1,0 +1,69 @@
+# ============================================================
+# Bank of Anthos SLI Candidate Queries
+# ============================================================
+#
+# These queries are candidates.
+# Final SLI queries depend on which workload/edge metrics exist.
+#
+# SRE rule:
+# SLOs should represent user impact, not infrastructure noise.
+# ============================================================
+
+
+# ------------------------------------------------------------
+# Candidate 1: Frontend availability from HTTP request metrics
+# ------------------------------------------------------------
+# Replace metric/labels after discovering the real metric name.
+#
+# successful requests / total requests
+
+sum(rate(http_requests_total{namespace="fintech-workload", status!~"5.."}[5m]))
+/
+sum(rate(http_requests_total{namespace="fintech-workload"}[5m]))
+
+
+# ------------------------------------------------------------
+# Candidate 2: Frontend 5xx error ratio
+# ------------------------------------------------------------
+# Replace metric/labels after discovering the real metric name.
+
+sum(rate(http_requests_total{namespace="fintech-workload", status=~"5.."}[5m]))
+/
+sum(rate(http_requests_total{namespace="fintech-workload"}[5m]))
+
+
+# ------------------------------------------------------------
+# Candidate 3: Frontend p95 latency
+# ------------------------------------------------------------
+# Replace metric/labels after discovering the real histogram metric.
+
+histogram_quantile(
+  0.95,
+  sum(rate(http_request_duration_seconds_bucket{namespace="fintech-workload"}[5m])) by (le)
+)
+
+
+# ------------------------------------------------------------
+# Candidate 4: Workload deployment availability fallback
+# ------------------------------------------------------------
+# This is not a user-facing SLO.
+# This is a fallback health signal if HTTP metrics are not available.
+
+sum by (deployment) (
+  kube_deployment_status_replicas_available{namespace="fintech-workload"}
+)
+/
+sum by (deployment) (
+  kube_deployment_spec_replicas{namespace="fintech-workload"}
+)
+
+
+# ------------------------------------------------------------
+# Candidate 5: Workload restart signal
+# ------------------------------------------------------------
+# This is not a user-facing SLO.
+# This is an investigation/context signal.
+
+sum by (pod, container) (
+  increase(kube_pod_container_status_restarts_total{namespace="fintech-workload"}[15m])
+)
