@@ -5,7 +5,9 @@ title: Prometheus Metrics Types Cheat Sheet
 
 # Prometheus Metrics Types Cheat Sheet
 
-![img](./img/prometheus-cheatsheet.png)
+<img src="./img/prometheus-cheatsheet.png" alt="Prometheus Metrics Types Cheat Sheet" width="720">
+
+[//]: # (![img]&#40;./img/prometheus-cheatsheet.png&#41;)
 
 ### A practical cheat sheet for identifying Prometheus metric types and choosing the correct PromQL query style, especially for Kubernetes, kube-state-metrics, cAdvisor, and application metrics.
 
