@@ -11,7 +11,7 @@ title: Prometheus Metrics Types Cheat Sheet
 
 ### A practical cheat sheet for identifying Prometheus metric types and choosing the correct PromQL query style, especially for Kubernetes, kube-state-metrics, cAdvisor, and application metrics.
 
----
+
 
 ## 1. Metric Discovery Query
 
@@ -31,7 +31,7 @@ This query answers:
 
 It does **not** directly tell you whether a metric is a counter, gauge, histogram, or summary. But it is very useful for discovering which metrics are available before building dashboards or alerts.
 
----
+
 
 # Core Prometheus Metric Types
 
@@ -44,7 +44,6 @@ Prometheus has four main metric types:
 | Histogram | Bucketed distribution of observations | `histogram_quantile()` |
 | Summary | Precomputed quantiles or sum/count pairs | Use quantile label or sum/count average |
 
----
 
 # 1. Counter
 
@@ -126,7 +125,7 @@ Example interpretation:
 
 Even though this metric is about CPU usage, it is still a **counter** because it stores accumulated CPU seconds.
 
----
+
 
 # 2. Gauge
 
@@ -443,7 +442,7 @@ Meaning:
 
 > Number of container restarts in the last 15 minutes.
 
----
+
 
 ## Current pod memory
 
@@ -471,7 +470,6 @@ Meaning:
 
 > Current memory usage per pod.
 
----
 
 ## Current CPU usage
 
@@ -499,7 +497,7 @@ Meaning:
 
 > Current CPU cores used per pod.
 
----
+
 
 ## CPU usage as percentage of requested CPU
 
@@ -518,7 +516,7 @@ Meaning:
 
 > Pod CPU usage compared to requested CPU.
 
----
+
 
 ## Memory usage as percentage of requested memory
 
@@ -537,7 +535,7 @@ Meaning:
 
 > Pod memory usage compared to requested memory.
 
----
+
 
 ## Deployment available replicas
 
@@ -563,7 +561,7 @@ Meaning:
 
 > Number of currently available replicas.
 
----
+
 
 ## Deployment desired replicas
 
@@ -589,7 +587,7 @@ Meaning:
 
 > Number of desired replicas.
 
----
+
 
 ## Deployment replica gap
 
@@ -603,7 +601,7 @@ Meaning:
 
 > How many replicas are missing.
 
----
+
 
 ## Pod phase
 
@@ -639,7 +637,7 @@ Failed
 Unknown
 ```
 
----
+
 
 ## Pending pods
 
@@ -651,7 +649,7 @@ Meaning:
 
 > Pods currently stuck or waiting in Pending phase.
 
----
+
 
 ## Failed pods
 
@@ -663,7 +661,7 @@ Meaning:
 
 > Pods currently in Failed phase.
 
----
+
 
 ## Container waiting reason
 
@@ -700,7 +698,7 @@ CreateContainerError
 ContainerCreating
 ```
 
----
+
 
 ## CrashLoopBackOff containers
 
@@ -712,7 +710,7 @@ Meaning:
 
 > Containers currently in CrashLoopBackOff.
 
----
+
 
 ## ImagePullBackOff containers
 
@@ -724,7 +722,7 @@ Meaning:
 
 > Containers currently failing to pull images.
 
----
+
 
 ## Network receive rate
 
@@ -808,7 +806,7 @@ Meaning:
 
 > Current filesystem usage per pod/container.
 
----
+
 
 # Practical Kubernetes Metric Table
 
@@ -850,7 +848,7 @@ Example output may include:
 }
 ```
 
----
+
 
 ## Method 2: Prometheus target metadata API
 
@@ -866,7 +864,7 @@ unit: seconds
 help: Cumulative CPU time consumed
 ```
 
----
+
 
 ## Method 3: Look at the metric name
 
@@ -882,7 +880,7 @@ This is often the fastest method.
 *_status         → usually gauge
 ```
 
----
+
 
 ## Method 4: Graph the raw metric
 
@@ -901,8 +899,6 @@ container_memory_working_set_bytes{namespace="fintech-workload"}
 ```
 
 If the line goes up and down, it is likely a **gauge**.
-
----
 
 # Best Discovery Queries
 
@@ -924,8 +920,6 @@ count by (__name__) (
 )
 ```
 
----
-
 ## Find CPU-related metrics
 
 ```promql
@@ -934,7 +928,7 @@ count by (__name__) (
 )
 ```
 
----
+
 
 ## Find memory-related metrics
 
@@ -944,7 +938,7 @@ count by (__name__) (
 )
 ```
 
----
+
 
 ## Find latency histogram metrics
 
@@ -954,7 +948,7 @@ count by (__name__) (
 )
 ```
 
----
+
 
 ## Find network counter metrics
 
@@ -964,7 +958,7 @@ count by (__name__) (
 )
 ```
 
----
+
 
 ## Find HTTP metrics
 
@@ -974,7 +968,7 @@ count by (__name__) (
 )
 ```
 
----
+
 
 ## Find error metrics
 
@@ -984,7 +978,7 @@ count by (__name__) (
 )
 ```
 
----
+
 
 ## Find kube-state-metrics workload metrics
 
@@ -994,7 +988,7 @@ count by (__name__) (
 )
 ```
 
----
+
 
 ## Find cAdvisor container metrics
 
@@ -1004,7 +998,6 @@ count by (__name__) (
 )
 ```
 
----
 
 # Query Function Decision Tree
 
@@ -1029,7 +1022,7 @@ rate(http_requests_total[5m])
 increase(kube_pod_container_status_restarts_total[15m])
 ```
 
----
+
 
 ## If the metric is a gauge
 
@@ -1055,7 +1048,7 @@ sum by (pod) (
 )
 ```
 
----
+
 
 ## If the metric is a histogram
 
@@ -1081,7 +1074,6 @@ histogram_quantile(
 )
 ```
 
----
 
 ## If the metric is a summary
 
@@ -1099,7 +1091,6 @@ rate(metric_name_sum[5m])
 rate(metric_name_count[5m])
 ```
 
----
 
 # Common Dashboard Panels For `fintech-workload`
 
@@ -1117,7 +1108,6 @@ Recommended panel type:
 Bar gauge / Table / Time series
 ```
 
----
 
 ## 2. CPU usage by pod
 
@@ -1133,7 +1123,6 @@ Recommended panel type:
 Time series / Bar gauge
 ```
 
----
 
 ## 3. Memory usage by pod
 
@@ -1149,7 +1138,6 @@ Recommended panel type:
 Bar gauge / Time series
 ```
 
----
 
 ## 4. Available replicas by deployment
 
@@ -1163,7 +1151,6 @@ Recommended panel type:
 Stat / Table / Bar gauge
 ```
 
----
 
 ## 5. Missing replicas
 
@@ -1179,7 +1166,6 @@ Recommended panel type:
 Stat / Table
 ```
 
----
 
 ## 6. Pods by phase
 
@@ -1195,7 +1181,6 @@ Recommended panel type:
 Pie chart / Bar chart / Stat
 ```
 
----
 
 ## 7. Waiting containers by reason
 
@@ -1211,7 +1196,6 @@ Recommended panel type:
 Bar chart / Table
 ```
 
----
 
 ## 8. Network receive rate by pod
 
@@ -1227,7 +1211,6 @@ Recommended panel type:
 Time series
 ```
 
----
 
 ## 9. Network transmit rate by pod
 
@@ -1243,7 +1226,6 @@ Recommended panel type:
 Time series
 ```
 
----
 
 ## 10. HTTP request rate
 
@@ -1261,7 +1243,6 @@ Recommended panel type:
 Time series / Bar gauge
 ```
 
----
 
 ## 11. HTTP error rate
 
@@ -1279,7 +1260,6 @@ Recommended panel type:
 Time series / Table
 ```
 
----
 
 ## 12. p95 latency
 
@@ -1300,7 +1280,6 @@ Recommended panel type:
 Time series / Bar gauge
 ```
 
----
 
 # Alert Examples
 
@@ -1316,7 +1295,6 @@ Meaning:
 
 > Alert when any container restarts at least once in 15 minutes.
 
----
 
 ## Restart spike
 
@@ -1330,7 +1308,6 @@ Meaning:
 
 > Alert when a container restarts 3 or more times in 15 minutes.
 
----
 
 ## Missing replicas
 
@@ -1345,7 +1322,6 @@ Meaning:
 
 > Alert when a deployment has fewer available replicas than desired.
 
----
 
 ## CrashLoopBackOff detected
 
@@ -1359,7 +1335,6 @@ Meaning:
 
 > Alert when a container is in CrashLoopBackOff.
 
----
 
 ## ImagePullBackOff detected
 
@@ -1373,7 +1348,6 @@ Meaning:
 
 > Alert when a container cannot pull its image.
 
----
 
 ## High memory usage compared to limit
 
@@ -1393,7 +1367,6 @@ Meaning:
 
 > Alert when pod memory usage is above 85% of memory limit.
 
----
 
 ## High CPU usage compared to limit
 
@@ -1413,7 +1386,6 @@ Meaning:
 
 > Alert when pod CPU usage is above 85% of CPU limit.
 
----
 
 # Mental Model
 
@@ -1448,8 +1420,6 @@ Network   → counter   → rate()
 Status    → gauge     → direct or == 1
 ```
 
----
-
 # Common Mistakes
 
 ## Mistake 1: Using counters directly
@@ -1468,7 +1438,6 @@ Better:
 rate(http_requests_total[5m])
 ```
 
----
 
 ## Mistake 2: Using `rate()` on gauges
 
@@ -1494,8 +1463,6 @@ sum by (pod) (
 )
 ```
 
----
-
 ## Mistake 3: Treating CPU like a gauge
 
 Bad assumption:
@@ -1515,8 +1482,6 @@ Correct query:
 ```promql
 rate(container_cpu_usage_seconds_total[5m])
 ```
-
----
 
 ## Mistake 4: Forgetting `le` in histogram grouping
 
@@ -1551,8 +1516,6 @@ histogram_quantile(
 )
 ```
 
----
-
 # Quick Reference
 
 | Question | Use |
@@ -1566,7 +1529,6 @@ histogram_quantile(
 | What is current memory usage? | Gauge directly |
 | What is current CPU usage? | Counter with `rate()` |
 
----
 
 # Recommended Naming For Grafana Panels
 
@@ -1586,7 +1548,7 @@ histogram_quantile(
 | HTTP error rate | `5xx Error Rate` |
 | p95 latency | `p95 Latency` |
 
----
+
 
 # Final Practical Rule
 
@@ -1615,5 +1577,5 @@ Ask these questions:
 5. Is it a Kubernetes status metric with values `0` or `1`?
    - Filter with `== 1` to show the active state.
 
----
+
 
