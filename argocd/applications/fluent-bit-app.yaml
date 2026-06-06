@@ -53,10 +53,10 @@ spec:
             [FILTER]
                 Name          parser
                 Match         kube.*
-                Key_Name      log
+                Key_Name      message
                 Parser        json
                 Reserve_Data  On
-                Preserve_Key  On
+                Preserve_Key  Off
 
           outputs: |
             [OUTPUT]
