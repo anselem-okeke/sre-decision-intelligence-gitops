@@ -1,6 +1,6 @@
-# Kubernetes Observability Cheat Sheets
+# SRE Decision Intelligence GitOps
 
-### Welcome to my Kubernetes observability notes and cheat sheets.
+### Practical SRE, observability, GitOps, and decision-intelligence notes built from hands-on Kubernetes platform engineering work.
 
 ## Available Guides
 
@@ -8,4 +8,4 @@
 
 ---
 
-### Built from hands-on Kubernetes, Prometheus, Grafana, and SRE work.
+### Built from hands-on work with Kubernetes, Prometheus, Grafana, GitOps, and SRE decision intelligence.
