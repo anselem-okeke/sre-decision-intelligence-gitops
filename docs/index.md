@@ -1,7 +1,5 @@
----
 layout: default
 title: SRE Decision Intelligence GitOps
----
 
 # SRE Decision Intelligence GitOps
 
@@ -10,7 +8,5 @@ title: SRE Decision Intelligence GitOps
 ## Available Guides
 
 - [Prometheus Metrics Types Cheat Sheet](./prometheus-metrics-types-cheat-sheet.md)
-
----
 
 ### Built from hands-on work with Kubernetes, Prometheus, Grafana, GitOps, and SRE decision intelligence.
