@@ -10,9 +10,12 @@ spec:
     - 'https://github.com/anselem-okeke/sre-decision-intelligence-gitops.git'
     - 'https://opensearch-project.github.io/helm-charts/'
     - 'https://fluent.github.io/helm-charts'
+    - 'https://prometheus-community.github.io/helm-charts'
 
   destinations:
     - namespace: observability
+      server: https://kubernetes.default.svc
+    - namespace: monitoring
       server: https://kubernetes.default.svc
 
   clusterResourceWhitelist:
