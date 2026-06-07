@@ -1,0 +1,34 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: bank-of-anthos-frontend-slo-rules
+  namespace: monitoring
+  labels:
+    release: kps
+spec:
+  groups:
+    - name: bank-of-anthos.frontend.slo
+      rules:
+        - alert: BankOfAnthosFrontendAvailabilitySLOBreach
+          expr: avg_over_time(probe_success{job="bank-of-anthos-frontend"}[5m]) < 0.99
+          for: 5m
+          labels:
+            severity: warning
+            service: frontend
+            slo: frontend-availability
+            namespace: fintech-workload
+          annotations:
+            summary: "Bank of Anthos frontend availability SLO breach"
+            description: "Frontend probe availability is below 99% for 5 minutes."
+
+        - alert: BankOfAnthosFrontendLatencySLOBreach
+          expr: quantile_over_time(0.95, probe_duration_seconds{job="bank-of-anthos-frontend"}[5m]) > 1
+          for: 5m
+          labels:
+            severity: warning
+            service: frontend
+            slo: frontend-latency
+            namespace: fintech-workload
+          annotations:
+            summary: "Bank of Anthos frontend latency SLO breach"
+            description: "Frontend probe p95 latency is above 1 second for 5 minutes."
