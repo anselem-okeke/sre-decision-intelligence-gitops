@@ -1,5 +1,7 @@
 # Phase 10 — Frontend Availability Breach Validation
 
+![img](/img/incident-validation.png)
+
 ## Objective
 
 Validate that a controlled frontend availability incident is detected by the Bank of Anthos frontend SLO.
