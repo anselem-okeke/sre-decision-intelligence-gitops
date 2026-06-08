@@ -78,7 +78,8 @@ lifecycle:
                     "otel-*",
                     "sre-*",
                     "app-*",
-                    "audit-*"
+                    "audit-*",
+                    "k8s-logs-*"
                   ],
                   "priority": 100
                 }
