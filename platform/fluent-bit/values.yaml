@@ -3,6 +3,14 @@ kind: DaemonSet
 serviceAccount:
   create: true
 
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 300m
+    memory: 512Mi
+
 luaScripts:
   normalize.lua: |
     function normalize(tag, timestamp, record)
@@ -72,18 +80,19 @@ luaScripts:
 config:
   service: |
     [SERVICE]
-        Flush                     10
-        Log_Level                 info
-        Daemon                    off
-        Parsers_File              /fluent-bit/etc/parsers.conf
-        HTTP_Server               On
-        HTTP_Listen               0.0.0.0
-        HTTP_Port                 2020
-        storage.path              /var/log/flb-storage-v2
-        storage.sync              normal
-        storage.checksum          off
-        storage.backlog.mem_limit 25M
-        storage.max_chunks_up     64
+        Flush                         10
+        Log_Level                     info
+        Daemon                        off
+        Parsers_File                  /fluent-bit/etc/parsers.conf
+        HTTP_Server                   On
+        HTTP_Listen                   0.0.0.0
+        HTTP_Port                     2020
+        storage.path                  /var/log/flb-storage-v2
+        storage.sync                  normal
+        storage.checksum              off
+        storage.backlog.mem_limit     25M
+        storage.max_chunks_up         64
+        storage.pause_on_chunks_overlimit On
 
   inputs: |
     [INPUT]
@@ -92,7 +101,7 @@ config:
         Exclude_Path        /var/log/containers/*_observability_fluent-bit-*.log
         Parser              cri
         Tag                 kube.*
-        Refresh_Interval    5
+        Refresh_Interval    10
         Mem_Buf_Limit       64MB
         Skip_Long_Lines     On
         Read_from_Head      Off
@@ -131,7 +140,7 @@ config:
         Logstash_Prefix     k8s-logs
         Suppress_Type_Name  On
         tls                 Off
-        Buffer_Size         5M
+        Buffer_Size         2M
         Workers             1
         Retry_Limit         False
         Trace_Error         Off
