@@ -72,7 +72,7 @@ luaScripts:
 config:
   service: |
     [SERVICE]
-        Flush                     5
+        Flush                     10
         Log_Level                 info
         Daemon                    off
         Parsers_File              /fluent-bit/etc/parsers.conf
@@ -82,8 +82,8 @@ config:
         storage.path              /var/log/flb-storage-v2
         storage.sync              normal
         storage.checksum          off
-        storage.backlog.mem_limit 100M
-        storage.max_chunks_up     256
+        storage.backlog.mem_limit 25M
+        storage.max_chunks_up     64
 
   inputs: |
     [INPUT]
@@ -93,7 +93,7 @@ config:
         Parser              cri
         Tag                 kube.*
         Refresh_Interval    5
-        Mem_Buf_Limit       256MB
+        Mem_Buf_Limit       64MB
         Skip_Long_Lines     On
         Read_from_Head      Off
         DB                  /var/log/flb_kube_cluster_v2.db
