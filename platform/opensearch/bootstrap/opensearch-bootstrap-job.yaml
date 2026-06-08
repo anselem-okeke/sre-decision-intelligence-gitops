@@ -1,0 +1,104 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: opensearch-bootstrap
+  namespace: observability
+  annotations:
+    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation,HookSucceeded
+spec:
+  backoffLimit: 3
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: opensearch-bootstrap
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: bootstrap
+          image: curlimages/curl:8.10.1
+          command:
+            - sh
+            - -c
+            - |
+              set -eu
+
+              OPENSEARCH_URL="http://opensearch-cluster-master.observability.svc.cluster.local:9200"
+
+              echo "Waiting for OpenSearch..."
+              until curl -fsS "${OPENSEARCH_URL}" >/dev/null; do
+                echo "OpenSearch not ready yet. Retrying..."
+                sleep 5
+              done
+
+              echo "Creating 3-day ISM retention policy..."
+              curl -fsS -X PUT "${OPENSEARCH_URL}/_plugins/_ism/policies/delete-after-3-days" \
+                -H "Content-Type: application/json" \
+                -d '{
+                  "policy": {
+                    "description": "Delete homelab observability indices after 3 days",
+                    "default_state": "hot",
+                    "states": [
+                      {
+                        "name": "hot",
+                        "actions": [],
+                        "transitions": [
+                          {
+                            "state_name": "delete",
+                            "conditions": {
+                              "min_index_age": "3d"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "name": "delete",
+                        "actions": [
+                          {
+                            "delete": {}
+                          }
+                        ],
+                        "transitions": []
+                      }
+                    ],
+                    "ism_template": {
+                      "index_patterns": [
+                        "logs-*",
+                        "otel-*",
+                        "sre-*",
+                        "app-*",
+                        "audit-*",
+                        "k8s-logs-*"
+                      ],
+                      "priority": 100
+                    }
+                  }
+                }'
+
+              echo "Creating k8s-logs index template..."
+              curl -fsS -X PUT "${OPENSEARCH_URL}/_index_template/k8s-logs-template" \
+                -H "Content-Type: application/json" \
+                -d '{
+                  "index_patterns": [
+                    "k8s-logs-*"
+                  ],
+                  "template": {
+                    "settings": {
+                      "number_of_shards": 1,
+                      "number_of_replicas": 0,
+                      "plugins.index_state_management.policy_id": "delete-after-3-days"
+                    }
+                  },
+                  "priority": 200
+                }'
+
+              echo "Ensuring existing k8s-logs indices use zero replicas..."
+              curl -fsS -X PUT "${OPENSEARCH_URL}/k8s-logs-*/_settings" \
+                -H "Content-Type: application/json" \
+                -d '{
+                  "index": {
+                    "number_of_replicas": 0
+                  }
+                }' || true
+
+              echo "OpenSearch bootstrap completed successfully."
