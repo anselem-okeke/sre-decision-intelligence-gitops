@@ -1,6 +1,6 @@
-# Phase 10 — Frontend Availability Breach Validation
+# Frontend Availability Breach Validation
 
-![img](/img/incident-validation.png)
+![img](/img/incidentdetect2.drawio.png)
 
 ## Objective
 
@@ -225,7 +225,7 @@ probe_success{instance="http://frontend.fintech-workload.svc.cluster.local", job
 ## Final Result
 
 ```text
-Phase 10 completed successfully.
+Phase completed successfully.
 
 A controlled frontend availability incident was injected by modifying the frontend Service selector so that it no longer matched the running frontend pod labels.
 

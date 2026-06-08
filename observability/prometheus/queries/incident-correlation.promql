@@ -1,0 +1,92 @@
+# ============================================================
+# Incident Correlation Queries
+# Scenario: Bank of Anthos frontend availability breach
+# ============================================================
+
+
+# ------------------------------------------------------------
+# 1. Primary user-facing impact signal
+# ------------------------------------------------------------
+
+probe_success{job="bank-of-anthos-frontend"}
+
+
+# ------------------------------------------------------------
+# 2. Frontend availability over 5 minutes
+# ------------------------------------------------------------
+
+avg_over_time(probe_success{job="bank-of-anthos-frontend"}[5m])
+
+
+# ------------------------------------------------------------
+# 3. Frontend probe latency
+# ------------------------------------------------------------
+
+probe_duration_seconds{job="bank-of-anthos-frontend"}
+
+
+# ------------------------------------------------------------
+# 4. Frontend availability alert state
+# ------------------------------------------------------------
+
+ALERTS{alertname="BankOfAnthosFrontendAvailabilitySLOBreach"}
+
+
+# ------------------------------------------------------------
+# 5. Frontend deployment available replicas
+# ------------------------------------------------------------
+
+kube_deployment_status_replicas_available{
+  namespace="fintech-workload",
+  deployment="frontend"
+}
+
+
+# ------------------------------------------------------------
+# 6. Frontend deployment unavailable replicas
+# ------------------------------------------------------------
+
+kube_deployment_status_replicas_unavailable{
+  namespace="fintech-workload",
+  deployment="frontend"
+}
+
+
+# ------------------------------------------------------------
+# 7. Frontend pod readiness
+# ------------------------------------------------------------
+
+kube_pod_container_status_ready{
+  namespace="fintech-workload",
+  pod=~"frontend-.*"
+}
+
+
+# ------------------------------------------------------------
+# 8. Frontend pod restarts
+# ------------------------------------------------------------
+
+increase(kube_pod_container_status_restarts_total{
+  namespace="fintech-workload",
+  pod=~"frontend-.*"
+}[15m])
+
+
+# ------------------------------------------------------------
+# 9. Workload pod phase
+# ------------------------------------------------------------
+
+kube_pod_status_phase{
+  namespace="fintech-workload",
+  pod=~"frontend-.*"
+}
+
+
+# ------------------------------------------------------------
+# 10. Container memory/OOM supporting evidence
+# ------------------------------------------------------------
+
+increase(container_oom_events_total{
+  namespace="fintech-workload",
+  pod=~"frontend-.*"
+}[15m])

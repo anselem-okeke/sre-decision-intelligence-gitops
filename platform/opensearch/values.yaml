@@ -1,0 +1,88 @@
+clusterName: opensearch
+nodeGroup: master
+
+singleNode: true
+replicas: 1
+
+persistence:
+  enabled: true
+  size: 20Gi
+  storageClass: longhorn-retain
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "1Gi"
+  limits:
+    cpu: "1"
+    memory: "2Gi"
+
+securityConfig:
+  enabled: false
+
+extraEnvs:
+  - name: DISABLE_SECURITY_PLUGIN
+    value: "true"
+
+opensearchConfig:
+  opensearch.yml: |
+    cluster.name: opensearch
+    network.host: 0.0.0.0
+    plugins.security.disabled: true
+
+lifecycle:
+  postStart:
+    exec:
+      command:
+        - bash
+        - -c
+        - |
+          echo "Waiting for OpenSearch..."
+          until curl -s http://localhost:9200 >/dev/null; do
+            sleep 5
+          done
+
+          echo "Creating 3-day ISM retention policy..."
+          curl -s -X PUT "http://localhost:9200/_plugins/_ism/policies/delete-after-3-days" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "policy": {
+                "description": "Delete homelab observability indices after 3 days",
+                "default_state": "hot",
+                "states": [
+                  {
+                    "name": "hot",
+                    "actions": [],
+                    "transitions": [
+                      {
+                        "state_name": "delete",
+                        "conditions": {
+                          "min_index_age": "3d"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "name": "delete",
+                    "actions": [
+                      {
+                        "delete": {}
+                      }
+                    ],
+                    "transitions": []
+                  }
+                ],
+                "ism_template": {
+                  "index_patterns": [
+                    "logs-*",
+                    "otel-*",
+                    "sre-*",
+                    "app-*",
+                    "audit-*"
+                  ],
+                  "priority": 100
+                }
+              }
+            }'
+
+          echo "ISM retention policy applied."

@@ -1,5 +1,7 @@
 # Phase 9 — Frontend Probe SLO Validation
 
+![img](/img/anthos-slislo.png)
+
 ## Objective
 
 Validate that the Bank of Anthos frontend is measured through a real user-facing probe using Blackbox Exporter and Prometheus.
