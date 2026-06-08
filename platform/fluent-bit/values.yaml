@@ -44,16 +44,31 @@ luaScripts:
             app_timestamp = json_ts
         end
 
+#        if not json_msg then
+#            if raw:find("CRITICAL") then
+#                severity = "CRITICAL"
+#            elseif raw:find("ERROR") then
+#                severity = "ERROR"
+#            elseif raw:find("WARN") or raw:find("WARNING") then
+#                severity = "WARN"
+#            elseif raw:find("DEBUG") then
+#                severity = "DEBUG"
+#            elseif raw:find("INFO") then
+#                severity = "INFO"
+#            end
+
         if not json_msg then
-            if raw:find("CRITICAL") then
+            local lower_raw = string.lower(raw)
+
+            if lower_raw:find("level=fatal") or lower_raw:find("critical") then
                 severity = "CRITICAL"
-            elseif raw:find("ERROR") then
+            elseif lower_raw:find("level=error") or lower_raw:find(" error ") or lower_raw:find("error=") then
                 severity = "ERROR"
-            elseif raw:find("WARN") or raw:find("WARNING") then
+            elseif lower_raw:find("level=warn") or lower_raw:find("warning") or lower_raw:find(" warn ") then
                 severity = "WARN"
-            elseif raw:find("DEBUG") then
+            elseif lower_raw:find("level=debug") or lower_raw:find(" debug ") then
                 severity = "DEBUG"
-            elseif raw:find("INFO") then
+            elseif lower_raw:find("level=info") or lower_raw:find(" info ") then
                 severity = "INFO"
             end
 
