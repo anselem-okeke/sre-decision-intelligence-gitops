@@ -3,17 +3,18 @@ kind: Job
 metadata:
   name: opensearch-bootstrap
   namespace: observability
-  annotations:
-    argocd.argoproj.io/hook: Sync
-    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation,HookSucceeded
 spec:
-  backoffLimit: 3
+  backoffLimit: 1
+  activeDeadlineSeconds: 180
+  ttlSecondsAfterFinished: 3600
+
   template:
     metadata:
       labels:
         app.kubernetes.io/name: opensearch-bootstrap
     spec:
-      restartPolicy: OnFailure
+      restartPolicy: Never
+
       containers:
         - name: bootstrap
           image: curlimages/curl:8.10.1
@@ -31,7 +32,9 @@ spec:
                 sleep 5
               done
 
-              echo "Creating 3-day ISM retention policy..."
+              echo "OpenSearch is reachable."
+
+              echo "Creating or updating 3-day ISM retention policy..."
               curl -fsS -X PUT "${OPENSEARCH_URL}/_plugins/_ism/policies/delete-after-3-days" \
                 -H "Content-Type: application/json" \
                 -d '{
@@ -75,7 +78,7 @@ spec:
                   }
                 }'
 
-              echo "Creating k8s-logs index template..."
+              echo "Creating or updating k8s-logs index template..."
               curl -fsS -X PUT "${OPENSEARCH_URL}/_index_template/k8s-logs-template" \
                 -H "Content-Type: application/json" \
                 -d '{
