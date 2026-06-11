@@ -23,6 +23,8 @@ securityConfig:
 extraEnvs:
   - name: DISABLE_SECURITY_PLUGIN
     value: "true"
+  - name: OPENSEARCH_JAVA_OPTS
+    value: "-Xms512m -Xmx512m"
 
 opensearchConfig:
   opensearch.yml: |
@@ -30,6 +32,18 @@ opensearchConfig:
     network.host: 0.0.0.0
     plugins.security.disabled: true
 
+    # Single-node lab setting
+    discovery.type: single-node
+
+    # Prevent replica issues in single-node mode
+    cluster.routing.allocation.enable: all
+
+    # Disk guardrails: stop before the PVC becomes completely full
+    cluster.routing.allocation.disk.threshold_enabled: true
+    cluster.routing.allocation.disk.watermark.low: "70%"
+    cluster.routing.allocation.disk.watermark.high: "80%"
+    cluster.routing.allocation.disk.watermark.flood_stage: "90%"
+    cluster.info.update.interval: "1m"
 
 
 
@@ -58,92 +72,45 @@ opensearchConfig:
 
 
 
-#clusterName: opensearch
-#nodeGroup: master
-#
-#singleNode: true
-#replicas: 1
-#
-#persistence:
-#  enabled: true
-#  size: 20Gi
-#  storageClass: longhorn-retain
-#
-#resources:
-#  requests:
-#    cpu: "100m"
-#    memory: "1Gi"
-#  limits:
-#    cpu: "1"
-#    memory: "2Gi"
-#
-#securityConfig:
-#  enabled: false
-#
-#extraEnvs:
-#  - name: DISABLE_SECURITY_PLUGIN
-#    value: "true"
-#
-#opensearchConfig:
-#  opensearch.yml: |
-#    cluster.name: opensearch
-#    network.host: 0.0.0.0
-#    plugins.security.disabled: true
-#
-#lifecycle:
-#  postStart:
-#    exec:
-#      command:
-#        - bash
-#        - -c
-#        - |
-#          echo "Waiting for OpenSearch..."
-#          until curl -s http://localhost:9200 >/dev/null; do
-#            sleep 5
-#          done
-#
-#          echo "Creating 3-day ISM retention policy..."
-#          curl -s -X PUT "http://localhost:9200/_plugins/_ism/policies/delete-after-3-days" \
-#            -H "Content-Type: application/json" \
-#            -d '{
-#              "policy": {
-#                "description": "Delete homelab observability indices after 3 days",
-#                "default_state": "hot",
-#                "states": [
-#                  {
-#                    "name": "hot",
-#                    "actions": [],
-#                    "transitions": [
-#                      {
-#                        "state_name": "delete",
-#                        "conditions": {
-#                          "min_index_age": "3d"
-#                        }
-#                      }
-#                    ]
-#                  },
-#                  {
-#                    "name": "delete",
-#                    "actions": [
-#                      {
-#                        "delete": {}
-#                      }
-#                    ],
-#                    "transitions": []
-#                  }
-#                ],
-#                "ism_template": {
-#                  "index_patterns": [
-#                    "logs-*",
-#                    "otel-*",
-#                    "sre-*",
-#                    "app-*",
-#                    "audit-*",
-#                    "k8s-logs-*"
-#                  ],
-#                  "priority": 100
-#                }
-#              }
-#            }'
-#
-#          echo "ISM retention policy applied."
+
+
+
+
+
+
+
+
+
+
+# clusterName: opensearch
+# nodeGroup: master
+
+# singleNode: true
+# replicas: 1
+
+# persistence:
+#   enabled: true
+#   size: 20Gi
+#   storageClass: longhorn-retain
+
+# resources:
+#   requests:
+#     cpu: "100m"
+#     memory: "1Gi"
+#   limits:
+#     cpu: "1"
+#     memory: "2Gi"
+
+# securityConfig:
+#   enabled: false
+
+# extraEnvs:
+#   - name: DISABLE_SECURITY_PLUGIN
+#     value: "true"
+
+# opensearchConfig:
+#   opensearch.yml: |
+#     cluster.name: opensearch
+#     network.host: 0.0.0.0
+#     plugins.security.disabled: true
+
