@@ -11,11 +11,13 @@ persistence:
 
 resources:
   requests:
-    cpu: "200m"
+    cpu: "100m"
     memory: "1Gi"
   limits:
     cpu: "1"
     memory: "2Gi"
+
+opensearchJavaOpts: "-Xms384m -Xmx384m"
 
 securityConfig:
   enabled: false
@@ -23,8 +25,6 @@ securityConfig:
 extraEnvs:
   - name: DISABLE_SECURITY_PLUGIN
     value: "true"
-  - name: OPENSEARCH_JAVA_OPTS
-    value: "-Xms384m -Xmx384m"
 
 opensearchConfig:
   opensearch.yml: |
@@ -94,10 +94,6 @@ readinessProbe:
 
 
 
-
-
-
-
 # clusterName: opensearch
 # nodeGroup: master
 
@@ -123,10 +119,25 @@ readinessProbe:
 # extraEnvs:
 #   - name: DISABLE_SECURITY_PLUGIN
 #     value: "true"
+#   - name: OPENSEARCH_JAVA_OPTS
+#     value: "-Xms512m -Xmx512m"
 
 # opensearchConfig:
 #   opensearch.yml: |
 #     cluster.name: opensearch
 #     network.host: 0.0.0.0
 #     plugins.security.disabled: true
+
+#     # Single-node lab setting
+#     discovery.type: single-node
+
+#     # Prevent replica issues in single-node mode
+#     cluster.routing.allocation.enable: all
+
+#     # Disk guardrails: stop before the PVC becomes completely full
+#     cluster.routing.allocation.disk.threshold_enabled: true
+#     cluster.routing.allocation.disk.watermark.low: "70%"
+#     cluster.routing.allocation.disk.watermark.high: "80%"
+#     cluster.routing.allocation.disk.watermark.flood_stage: "90%"
+#     cluster.info.update.interval: "1m"
 
