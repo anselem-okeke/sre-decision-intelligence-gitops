@@ -11,7 +11,7 @@ persistence:
 
 resources:
   requests:
-    cpu: "100m"
+    cpu: "200m"
     memory: "1Gi"
   limits:
     cpu: "1"
@@ -24,7 +24,7 @@ extraEnvs:
   - name: DISABLE_SECURITY_PLUGIN
     value: "true"
   - name: OPENSEARCH_JAVA_OPTS
-    value: "-Xms512m -Xmx512m"
+    value: "-Xms384m -Xmx384m"
 
 opensearchConfig:
   opensearch.yml: |
@@ -44,6 +44,22 @@ opensearchConfig:
     cluster.routing.allocation.disk.watermark.high: "80%"
     cluster.routing.allocation.disk.watermark.flood_stage: "90%"
     cluster.info.update.interval: "1m"
+
+startupProbe:
+  tcpSocket:
+    port: 9200
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 90
+
+readinessProbe:
+  tcpSocket:
+    port: 9200
+  initialDelaySeconds: 20
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 12
 
 
 
