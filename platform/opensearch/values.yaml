@@ -15,9 +15,9 @@ resources:
     memory: "1Gi"
   limits:
     cpu: "1"
-    memory: "2Gi"
+    memory: "3Gi"
 
-opensearchJavaOpts: "-Xms384m -Xmx384m"
+opensearchJavaOpts: "-Xms512m -Xmx512m"
 
 securityConfig:
   enabled: false
