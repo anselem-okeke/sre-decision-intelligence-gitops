@@ -117,11 +117,7 @@ spec:
                 }' || true
 
               echo "OpenSearch bootstrap completed successfully."
-
-
-
-
-
+```
 
 
 
