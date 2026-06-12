@@ -36,51 +36,56 @@ spec:
 
               echo "OpenSearch is reachable."
 
-              echo "Creating or updating 3-day ISM retention policy..."
-              curl -fsS -X PUT "${OPENSEARCH_URL}/_plugins/_ism/policies/delete-after-3-days" \
-                -H "Content-Type: application/json" \
-                -d '{
-                  "policy": {
-                    "description": "Delete homelab observability indices after 3 days",
-                    "default_state": "hot",
-                    "states": [
-                      {
-                        "name": "hot",
-                        "actions": [],
-                        "transitions": [
-                          {
-                            "state_name": "delete",
-                            "conditions": {
-                              "min_index_age": "3d"
+              echo "Checking 3-day ISM retention policy..."
+              if curl -fsS "${OPENSEARCH_URL}/_plugins/_ism/policies/delete-after-3-days" >/dev/null; then
+                echo "ISM policy delete-after-3-days already exists. Keeping existing policy."
+              else
+                echo "Creating 3-day ISM retention policy..."
+                curl -fsS -X PUT "${OPENSEARCH_URL}/_plugins/_ism/policies/delete-after-3-days" \
+                  -H "Content-Type: application/json" \
+                  -d '{
+                    "policy": {
+                      "description": "Delete homelab observability indices after 3 days",
+                      "default_state": "hot",
+                      "states": [
+                        {
+                          "name": "hot",
+                          "actions": [],
+                          "transitions": [
+                            {
+                              "state_name": "delete",
+                              "conditions": {
+                                "min_index_age": "3d"
+                              }
                             }
-                          }
-                        ]
-                      },
-                      {
-                        "name": "delete",
-                        "actions": [
-                          {
-                            "delete": {}
-                          }
-                        ],
-                        "transitions": []
-                      }
-                    ],
-                    "ism_template": [
-                      {
-                        "index_patterns": [
-                          "logs-*",
-                          "otel-*",
-                          "sre-*",
-                          "app-*",
-                          "audit-*",
-                          "k8s-logs-*"
-                        ],
-                        "priority": 100
-                      }
-                    ]
-                  }
-                }'
+                          ]
+                        },
+                        {
+                          "name": "delete",
+                          "actions": [
+                            {
+                              "delete": {}
+                            }
+                          ],
+                          "transitions": []
+                        }
+                      ],
+                      "ism_template": [
+                        {
+                          "index_patterns": [
+                            "logs-*",
+                            "otel-*",
+                            "sre-*",
+                            "app-*",
+                            "audit-*",
+                            "k8s-logs-*"
+                          ],
+                          "priority": 100
+                        }
+                      ]
+                    }
+                  }'
+              fi
 
               echo "Creating or updating k8s-logs index template..."
               curl -fsS -X PUT "${OPENSEARCH_URL}/_index_template/k8s-logs-template" \
@@ -109,10 +114,13 @@ spec:
                 }' || true
 
               echo "Attaching ISM policy to existing k8s-logs indices..."
-              curl -fsS -X POST "${OPENSEARCH_URL}/_plugins/_ism/add/k8s-logs-*" \
-                -H "Content-Type: application/json" \
-                -d '{
-                  "policy_id": "delete-after-3-days"
-                }' || true
+              for index in $(curl -fsS "${OPENSEARCH_URL}/_cat/indices/k8s-logs-*?h=index" || true); do
+                echo "Attaching ISM policy to ${index}"
+                curl -fsS -X POST "${OPENSEARCH_URL}/_plugins/_ism/add/${index}" \
+                  -H "Content-Type: application/json" \
+                  -d '{
+                    "policy_id": "delete-after-3-days"
+                  }' || true
+              done
 
               echo "OpenSearch bootstrap completed successfully."
