@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: platform-security
+  namespace: argocd
+spec:
+  description: Platform security controllers and secret-management infrastructure
+
+  sourceRepos:
+    - https://github.com/anselem-okeke/sre-decision-intelligence-gitops.git
+    - https://charts.external-secrets.io
+
+  destinations:
+    - namespace: external-secrets
+      server: https://kubernetes.default.svc
+
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+    - group: apiextensions.k8s.io
+      kind: CustomResourceDefinition
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+    - group: admissionregistration.k8s.io
+      kind: MutatingWebhookConfiguration
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRole
+    - group: rbac.authorization.k8s.io
+      kind: ClusterRoleBinding
+
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
