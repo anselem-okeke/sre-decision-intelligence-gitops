@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/anselem-okeke/sre-decision-intelligence-gitops.git
     targetRevision: main
-    path: argocd/applications
+    path: argocd
 
   destination:
     server: https://kubernetes.default.svc
