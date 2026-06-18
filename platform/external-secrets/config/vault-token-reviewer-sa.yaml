@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vault-token-reviewer
+  namespace: external-secrets
+  labels:
+    app.kubernetes.io/name: vault-token-reviewer
+    app.kubernetes.io/part-of: platform-security
+    app.kubernetes.io/component: vault-kubernetes-authapiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vault-token-reviewer
+  namespace: external-secrets
+  labels:
+    app.kubernetes.io/name: vault-token-reviewer
+    app.kubernetes.io/part-of: platform-security
+    app.kubernetes.io/component: vault-kubernetes-auth

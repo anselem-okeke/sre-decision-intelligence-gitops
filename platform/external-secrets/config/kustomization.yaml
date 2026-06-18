@@ -1,0 +1,7 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - vault-ca-configmap.yaml
+  - vault-token-reviewer-sa.yaml
+  - vault-token-reviewer-clusterrolebinding.yaml
