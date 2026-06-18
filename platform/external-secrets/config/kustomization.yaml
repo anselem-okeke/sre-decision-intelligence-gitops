@@ -6,3 +6,4 @@ resources:
   - vault-token-reviewer-sa.yaml
   - vault-token-reviewer-clusterrolebinding.yaml
   - vault-token-reviewer-token.yaml
+  - clustersecretstore-vault.yaml
