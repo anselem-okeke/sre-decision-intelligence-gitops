@@ -1,5 +1,7 @@
 # External Secrets Operator
 
+![vault-architecture](/img/decision2.png)
+
 This folder contains the platform-owned configuration for External Secrets Operator.
 
 ESO is installed into the `external-secrets` namespace and is used to sync secrets from external HashiCorp Vault into Kubernetes Secrets.
@@ -12,7 +14,7 @@ ESO is installed into the `external-secrets` namespace and is used to sync secre
 - ESO creates Kubernetes Secrets from Vault values.
 - Application workloads consume normal Kubernetes Secrets.
 
-## Current phase
+## Step-by-step vault implemention
 
 Installs only the External Secrets Operator and CRDs.
 
