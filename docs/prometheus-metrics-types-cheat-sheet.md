@@ -1577,5 +1577,8 @@ Ask these questions:
 5. Is it a Kubernetes status metric with values `0` or `1`?
    - Filter with `== 1` to show the active state.
 
+## More on Prometheus
+- ### [Prometheus_grafana_v2](https://github.com/anselem-okeke/sre-decision-intelligence-gitops/blob/main/docs/prometheus_grafana_interview_cheatsheet_v2.md)
+
 
 
