@@ -1578,7 +1578,7 @@ Ask these questions:
    - Filter with `== 1` to show the active state.
 
 ## More on Prometheus
-- ### [Prometheus_grafana_v2](https://github.com/anselem-okeke/sre-decision-intelligence-gitops/blob/main/docs/prometheus_grafana_interview_cheatsheet_v2.md)
+- [Prometheus_grafana_v2](prometheus_grafana_interview_cheatsheet_v2.md)
 
 
 
