@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Prometheus & Grafana Cheat Sheet v2
+title: "Prometheus & Grafana Cheat Sheet v2"
 ---
 
 # Prometheus & Grafana Cheat Sheet v2
