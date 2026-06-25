@@ -1,3 +1,8 @@
+---
+layout: default
+title: Prometheus & Grafana Cheat Sheet v2
+---
+
 # Prometheus & Grafana Cheat Sheet v2
 
 **Focus:** PromQL operators, Kubernetes observability, Grafana dashboards, alerting, and SRE interview scenarios.

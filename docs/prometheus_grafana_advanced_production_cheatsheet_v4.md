@@ -1,3 +1,8 @@
+---
+layout: default
+title: Prometheus & Grafana Advanced Production Cheat Sheet v4
+---
+
 # Prometheus & Grafana Advanced Production Cheat Sheet v4
 
 **Focus:** Senior-level Prometheus, Grafana, Kubernetes observability, long-term storage, scaling, GitOps, OpenTelemetry, alert quality, and production operating models.

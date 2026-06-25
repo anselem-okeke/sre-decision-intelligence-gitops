@@ -1,3 +1,8 @@
+---
+layout: default
+title: Prometheus & Grafana Cheat Sheet v3
+---
+
 # Prometheus & Grafana Cheat Sheet v3
 
 **Focus:** Production Prometheus/Grafana knowledge for DevOps, SRE, Platform Engineering, Kubernetes, and observability interviews.
