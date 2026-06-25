@@ -1578,7 +1578,11 @@ Ask these questions:
    - Filter with `== 1` to show the active state.
 
 ## More on Prometheus
-- [Prometheus_grafana_v2](prometheus_grafana_interview_cheatsheet_v2.md)
+## More on Prometheus
+
+- [Prometheus & Grafana Cheat Sheet v2]({{ site.baseurl }}/prometheus_grafana_interview_cheatsheet_v2.html)
+- [Prometheus & Grafana Cheat Sheet v3]({{ site.baseurl }}/prometheus_grafana_interview_cheatsheet_v3.html)
+- [Prometheus & Grafana Advanced Production Cheat Sheet v4]({{ site.baseurl }}/prometheus_grafana_advanced_production_cheatsheet_v4.html)
 
 
 
